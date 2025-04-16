@@ -1,168 +1,114 @@
 <h1 align="center">Spring Boot Security Project</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Spring--Boot--Security--Project-brightgreen" alt="Spring Boot Security Project">
-  <img src="https://img.shields.io/badge/Using--Docker-blue" alt="Docker">
-  <img src="https://img.shields.io/badge/Java-21-blueviolet" alt="Java 21">
-  <img src="https://img.shields.io/badge/Database-MySQL-4479A1" alt="MySQL">
-  <img src="https://img.shields.io/badge/Auth-OAuth2-orange" alt="OAuth2">
+  <img src="https://img.shields.io/github/license/leandrordg/authentication-spring" alt="License" />
+  <img src="https://img.shields.io/github/last-commit/leandrordg/authentication-spring" alt="Last Commit" />
+  <img src="https://img.shields.io/github/repo-size/leandrordg/authentication-spring" alt="Repo Size" />
+  <img src="https://img.shields.io/badge/Java-21-blueviolet" alt="Java 21" />
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.4.4-brightgreen" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/Auth-JWT%20%7C%20OAuth2-orange" alt="Authentication" />
+  <img src="https://img.shields.io/badge/Database-MySQL-4479A1" alt="MySQL" />
+  <img src="https://img.shields.io/badge/Using-Docker-blue" alt="Docker" />
 </p>
 
-<p align="center">Este é um projeto de demonstração para implementar segurança usando Spring Boot, com funcionalidades de login, registro de usuários, criação e remoção de tweets, e autenticação via JWT (JSON Web Token). O projeto utiliza o Spring Security, OAuth2 Resource Server, JPA e MySQL.</p>
+<p align="center">
+  Projeto de demonstração para implementação de segurança com Spring Boot. Inclui funcionalidades de autenticação JWT, login, registro de usuários e gerenciamento de tweets. Utiliza Spring Security, OAuth2, JPA e MySQL, com ambiente configurável via Docker.
+</p>
 
-## Funcionalidades
+## 🚀 Funcionalidades
 
-- **Registro de usuário:** Permite que novos usuários se registrem, armazenando suas credenciais de forma segura com a codificação da senha utilizando BCrypt.
-- **Login de usuário:** Usuários podem fazer login fornecendo suas credenciais, e um JWT é gerado para autenticação futura.
-- **Autenticação JWT:** O sistema utiliza JWT para proteger endpoints e garantir a comunicação segura.
-- **Gestão de usuários:** Apenas administradores autenticados podem visualizar todos os usuários registrados.
-- **Tweets:** Usuários autenticados podem criar, listar e excluir tweets.
+- **Registro de Usuário**: Criação de contas com senha criptografada usando BCrypt.
+- **Login**: Geração de token JWT após login válido.
+- **Autenticação JWT**: Proteção de endpoints com segurança baseada em tokens.
+- **Gestão de Usuários**: Apenas administradores podem visualizar todos os usuários registrados.
+- **Tweets**: Criação, listagem e remoção de tweets para usuários autenticados.
 
-## Tecnologias
+## 🛠️ Tecnologias
 
-- **Spring Boot 3.4.4**: Framework utilizado para o desenvolvimento da aplicação.
-- **Spring Security**: Utilizado para a implementação de autenticação e autorização.
-- **Spring Data JPA**: Para comunicação com o banco de dados.
-- **JWT (JSON Web Token)**: Utilizado para autenticação.
-- **MySQL**: Banco de dados utilizado para armazenar as informações de usuários.
-- **Docker**: Utilizado para facilitar a execução do ambiente do projeto.
+- **Spring Boot 3.4.4**
+- **Spring Security**
+- **Spring Data JPA**
+- **JWT (JSON Web Token)**
+- **MySQL**
+- **Docker e Docker Compose**
 
-## Pré-requisitos
+## ✅ Pré-requisitos
 
-- **Java 21**: Certifique-se de que o Java 21 esteja instalado.
-- **MySQL**: Instalar e configurar um banco de dados MySQL, caso não queira usar o Docker.
-- **Docker e Docker Compose**: Para rodar o projeto com os containers configurados.
+- Java 21 instalado
+- MySQL configurado (ou rodando via Docker)
+- Docker e Docker Compose (opcional, mas recomendado)
 
-## Como rodar o projeto
+---
 
-### Passo 1: Clone o repositório
+## 🔗 Endpoints
 
-```bash
-git clone https://github.com/leandrordg/authentication-spring repositorio
-cd repositorio
-```
+- **POST `/auth/register`** – Registrar um novo usuário
+  ```json
+  {
+    "username": "johndoe",
+    "password": "johndoe123"
+  }
+  ```
 
-### Passo 2: Configure o banco de dados MySQL
-
-Se for utilizar o MySQL localmente, configure o banco de dados no arquivo `src/main/resources/application.properties`:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/seubancodedados
-spring.datasource.username=exemplo
-spring.datasource.password=exemplo
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-```
-
-Caso queira usar o Docker para rodar o MySQL, pule este passo.
-
-### Passo 3: Usando Docker
-
-Execute os containers do Docker para o ambiente de desenvolvimento:
-
-```bash
-docker compose up
-```
-
-Isso irá rodar a aplicação Spring Boot e o MySQL dentro de containers Docker, sem precisar de uma configuração manual no seu sistema.
-
-### Passo 4: Execute o projeto
-
-#### Usando Maven:
-
-```bash
-mvn spring-boot:run
-```
-
-#### Usando IDE (Ex: IntelliJ, Eclipse):
-
-1. Abra o projeto na IDE.
-2. Execute a classe `SecurityApplication.java`.
-
-## Endpoints
-
-- **POST /auth/register**: Registrar um novo usuário.
-
-  **Requisição:**
-    ```json
-    {
-      "username": "johndoe",
-      "password": "johndoe123"
-    }
-    ```
-
-- **POST /auth/login**: Fazer login com um usuário registrado.
-
-  **Requisição:**
-    ```json
-    {
-      "username": "johndoe",
-      "password": "johndoe123"
-    }
-    ```
+- **POST `/auth/login`** – Login do usuário
+  ```json
+  {
+    "username": "johndoe",
+    "password": "johndoe123"
+  }
+  ```
 
   **Resposta:**
-    ```json
-    {
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-      "expiresIn": 300
-    }
-    ```
+  ```json
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expiresIn": 300
+  }
+  ```
 
-- **GET /users**: Listar todos os usuários (somente para administradores).
+- **GET `/users`** – Listar todos os usuários (apenas administradores)  
+  **Autenticação:** Bearer Token
 
-  **Autenticação:** Bearer token (`{{accessToken}}`)
+- **GET `/tweets`** – Listar tweets com paginação (`pageSize`, `page`)  
+  **Autenticação:** Bearer Token
 
-- **GET /tweets**: Listar tweets (pode ser filtrado por `pageSize` e `page`).
+- **POST `/tweets`** – Criar novo tweet
+  ```json
+  {
+    "content": "meu primeiro tweet da conta lbertalhia"
+  }
+  ```
 
-  **Requisição:**
-    ```
-    GET {{localhost}}/tweets?pageSize=10&page=0
-    ```
+  **Autenticação:** Bearer Token
 
-  **Autenticação:** Bearer token (`{{accessToken}}`)
+- **DELETE `/tweets/{tweetId}`** – Deletar tweet por ID  
+  **Autenticação:** Bearer Token
 
-- **POST /tweets**: Criar um novo tweet.
+---
 
-  **Requisição:**
-    ```json
-    {
-      "content": "meu primeiro tweet da conta lbertalhia"
-    }
-    ```
-
-  **Autenticação:** Bearer token (`{{accessToken}}`)
-
-- **DELETE /tweets/{tweetId}**: Deletar um tweet pelo seu ID.
-
-  **Requisição:**
-    ```
-    DELETE {{localhost}}/tweets/{id}
-    ```
-
-  **Autenticação:** Bearer token (`{{accessToken}}`)
-
-## Imagens do Projeto
+## 📸 Estrutura do Projeto
 
 ### Controllers
-
 ![Controllers](./images/controllers.png)
 
 ### Services
-
 ![Services](./images/services.png)
 
 ### Infrastructure
-
 ![Infrastructure](./images/infra.png)
 
-## Como contribuir
+---
 
-1. Faça um fork do repositório.
-2. Crie uma branch para a sua feature: `git checkout -b minha-feature`.
-3. Faça suas alterações e commit: `git commit -am 'Adiciona nova feature'`.
-4. Envie para o repositório remoto: `git push origin minha-feature`.
-5. Crie um Pull Request.
+## 🤝 Como contribuir
 
-## Licença
+1. Faça um fork do projeto
+2. Crie uma branch: `git checkout -b minha-feature`
+3. Faça suas alterações e commit: `git commit -m 'feat: minha nova feature'`
+4. Envie a branch: `git push origin minha-feature`
+5. Abra um Pull Request ✨
 
-Este projeto é licenciado sob a [MIT License](./LICENSE).
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença [MIT](./LICENSE).
