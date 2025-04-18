@@ -1,4 +1,4 @@
-package com.lbertalhia.security.controllers.dtos;
+package com.lbertalhia.security.dtos;
 
 public record RegisterUserDto(String username, String password) {
 }

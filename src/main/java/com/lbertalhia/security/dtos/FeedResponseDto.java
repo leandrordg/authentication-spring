@@ -1,4 +1,4 @@
-package com.lbertalhia.security.controllers.dtos;
+package com.lbertalhia.security.dtos;
 
 import java.util.List;
 

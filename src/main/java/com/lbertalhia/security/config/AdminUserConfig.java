@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Configuration
@@ -27,17 +28,17 @@ public class AdminUserConfig implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
-        var roleAdmin = roleRepository.findByName(Role.Values.ADMIN.name());
-        var userAdmin = userRepository.findByUsername("ADMIN");
+        Role roleAdmin = roleRepository.findByName(Role.Values.ADMIN.name());
+        Optional<User> userAdmin = userRepository.findByUsername("ADMIN");
 
         userAdmin.ifPresentOrElse(
                 (user) -> {
                     System.out.println("Admin already exists");
                 },
                 () -> {
-                    var user = new User();
+                    User user = new User();
                     user.setUsername("ADMIN");
-                    user.setPassword(passwordEncoder.encode("123"));
+                    user.setPassword(passwordEncoder.encode("123")); // OBS: senha de teste para a funcionalidade da autenticação!
                     user.setRoles(Set.of(roleAdmin));
                     userRepository.save(user);
                 }

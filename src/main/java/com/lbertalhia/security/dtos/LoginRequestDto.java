@@ -1,4 +1,4 @@
-package com.lbertalhia.security.controllers.dtos;
+package com.lbertalhia.security.dtos;
 
 public record LoginRequestDto(String username, String password) {
 

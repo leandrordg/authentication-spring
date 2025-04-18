@@ -1,14 +1,15 @@
 package com.lbertalhia.security.services;
 
-import com.lbertalhia.security.controllers.dtos.LoginRequestDto;
-import com.lbertalhia.security.controllers.dtos.LoginResponseDto;
-import com.lbertalhia.security.controllers.dtos.RegisterUserDto;
+import com.lbertalhia.security.dtos.LoginRequestDto;
+import com.lbertalhia.security.dtos.LoginResponseDto;
+import com.lbertalhia.security.dtos.RegisterUserDto;
 import com.lbertalhia.security.entities.Role;
 import com.lbertalhia.security.entities.User;
 import com.lbertalhia.security.repositories.RoleRepository;
 import com.lbertalhia.security.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -41,7 +42,7 @@ public class AuthService {
     }
 
     @Transactional
-    public User register(RegisterUserDto dto) {
+    public ResponseEntity<User> register(RegisterUserDto dto) {
         if (userRepository.findByUsername(dto.username()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Username already exists");
         }
@@ -53,11 +54,11 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(dto.password()));
         user.setRoles(Set.of(basicRole));
 
-        return userRepository.save(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userRepository.save(user));
     }
 
     @Transactional
-    public LoginResponseDto login(LoginRequestDto dto) {
+    public ResponseEntity<LoginResponseDto> login(LoginRequestDto dto) {
         User user = userRepository.findByUsername(dto.username())
                 .orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
 
@@ -65,11 +66,11 @@ public class AuthService {
             throw new BadCredentialsException("Invalid username or password");
         }
 
-        return generateJwtForUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(generateJwtForUser(user));
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
 
     private LoginResponseDto generateJwtForUser(User user) {

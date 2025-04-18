@@ -39,9 +39,5 @@ public class Role {
         Values(long roleId) {
             this.roleId = roleId;
         }
-
-        public long getRoleId() {
-            return roleId;
-        }
     }
 }

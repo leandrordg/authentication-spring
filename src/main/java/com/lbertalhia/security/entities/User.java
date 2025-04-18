@@ -1,6 +1,7 @@
 package com.lbertalhia.security.entities;
 
-import com.lbertalhia.security.controllers.dtos.LoginRequestDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lbertalhia.security.dtos.LoginRequestDto;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -19,6 +20,7 @@ public class User {
     @Column(unique = true)
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
